@@ -1,9 +1,12 @@
-resource "aws_vpc" "dev_vpc" {
+data "aws_region" "current" {}
 
-    cidr_block = "10.0.0.0/16"
-    enable_dns_support = "true"
-    enable_dns_hostnames = "true" 
-    enable_classiclink = "false"
-    instance_tenancy = "default"
+resource "aws_vpc" "vpc" {
+  cidr_block           = var.cidr_block
+  enable_dns_support   = var.enable_dns_support
+  enable_dns_hostnames = var.enable_dns_hostnames
+  tags                 = merge(var.tags, lookup(var.tags_for_resource, "aws_vpc", {}))
+}
 
-  }
+
+
+
